@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://github.com/magmaOffenburg/RoboViz/releases/tag/2.0.0
+HostUrl=https://objects.githubusercontent.com/github-production-release-asset-2e65be/34959602/27c6e5b2-d18f-4ded-a3b4-57b57e113530?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20241025%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241025T235145Z&X-Amz-Expires=300&X-Amz-Signature=6150230cfd72ec7ce6ea2e686e1d6f8b4f1bd1b44cf9b86464c6e6dc3436e4c1&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3DRoboViz.tar.gz&response-content-type=application%2Foctet-stream
