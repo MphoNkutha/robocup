@@ -41,32 +41,33 @@ class Agent(Base_Agent):
         
         # Define formations
         self.formations = {
-            'defensive': [
-                [-14, 0],    # Goalkeeper
-                [-10, -5],   # Defender
-                [-10, 0],    # Defender
-                [-10, 5],    # Defender
-                [-6, -5],    # Midfielder
-                [-6, 0],     # Midfielder
-                [-6, 5],     # Midfielder
-                [-3, -6],    # Forward
-                [-3, -2],    # Forward
-                [-3, 2],     # Forward
-                [-3, 6]      # Forward
-            ],
-            'offensive': [
-                [-14, 0],    # Goalkeeper
-                [-8, -5],    # Defender
-                [-8, 0],     # Defender
-                [-8, 5],    # Defender
-                [-4, -5],    # Midfielder
-                [-4, 0],     # Midfielder
-                [-4, 5],     # Midfielder
-                [0, -6],     # Forward
-                [0, -2],     # Forward
-                [0, 2],      # Forward
-                [0, 6]       # Forward
-            ]
+           'defensive': [
+        np.array([-14, 0]),    # Goalkeeper
+        np.array([-10, -5]),   # Defender
+        np.array([-10, 0]),    # Defender
+        np.array([-10, 5]),    # Defender
+        np.array([-6, -5]),     # Midfielder
+        np.array([-6, 0]),     # Midfielder
+        np.array([-6, 5]),     # Midfielder
+        np.array([-3, -6]),    # Forward
+        np.array([-3, -2]),    # Forward
+        np.array([-3, 2]),     # Forward
+        np.array([-3, 6])      # Forward
+    ],
+    'offensive': [
+        np.array([-14, 0]),    # Goalkeeper
+        np.array([-8, -5]),     # Defender
+        np.array([-8, 0]),      # Defender
+        np.array([-8, 5]),      # Defender
+        np.array([-4, -5]),     # Midfielder
+        np.array([-4, 0]),      # Midfielder
+        np.array([-4, 5]),      # Midfielder
+        np.array([0, -6]),      # Forward
+        np.array([0, -2]),      # Forward
+        np.array([0, 2]),       # Forward
+        np.array([0, 6])        # Forward
+    ],
+
         }
 
     def get_game_state_group(self, current_state):
@@ -81,22 +82,23 @@ class Agent(Base_Agent):
         ball_x, ball_y = strategyData.ball_2d
         
         # Start with defensive formation
-        positions = [pos.copy() for pos in self.formations['defensive']]
+        positions = GenerateBasicFormation()   
         
-        # If ball is in offensive half, use offensive formation
         if ball_x > 0:
             positions = [pos.copy() for pos in self.formations['offensive']]
-            
+        else:
+            positions = [pos.copy() for pos in self.formations['defensive']]
+
         # Scale formation based on ball position (except goalkeeper)
         scale_factor = 0.8 + (ball_x + 15) / 30 * 0.4  # Scale between 0.8 and 1.2
         for pos in positions[1:]:
             pos[0] *= scale_factor
-            
+
         # Shift formation laterally based on ball's y position (except goalkeeper)
         lateral_shift = np.clip(ball_y / 5, -2, 2)  # Maximum shift of 2 meters
         for pos in positions[1:]:
             pos[1] += lateral_shift
-            
+
         return positions
 
     def handle_play_on(self, strategyData):
@@ -114,6 +116,7 @@ class Agent(Base_Agent):
                                               strategyData.teammate_positions, 
                                               (15,0))  # Default to goal if no good pass
                 return self.kickTarget(strategyData, strategyData.mypos, target)
+                
         else:
             # Support - move to formation position
             return self.move(strategyData.my_desired_position, 
@@ -316,8 +319,8 @@ class Agent(Base_Agent):
                 return self.beam(avoid_center)
                     
                 # Get formation positions based on current game state
-            formation_positions = self.get_formation_positions(strategyData)
-                
+            #formation_positions = self.get_formation_positions(strategyData)
+            formation_positions =  GenerateBasicFormation() 
                 # Assign roles and update strategy data
             point_preferences = role_assignment(strategyData.teammate_positions, formation_positions)
             #print(point_preferences)
@@ -339,7 +342,7 @@ class Agent(Base_Agent):
                 
                 # Handle play on state
             if state_group == 'PLAY_ON':
-                return self.handle_play_on(strategyData)
+                 return self.handle_play_on(strategyData)
             
             
                     
