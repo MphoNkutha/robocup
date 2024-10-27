@@ -5,5 +5,5 @@ host=${1:-localhost}
 port=${2:-3100}
 
 for i in {1..11}; do
-  python3 ./Run_Player.py -i $host -p $port -u $i -t WitsS-FC -P 0 -D 0 &
+  python3 ./Run_Player.py -i $host -p $port -u $i -t myteam-FC -P 0 -D 0 &
 done

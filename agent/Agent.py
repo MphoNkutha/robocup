@@ -320,6 +320,7 @@ class Agent(Base_Agent):
                 
                 # Assign roles and update strategy data
             point_preferences = role_assignment(strategyData.teammate_positions, formation_positions)
+            #print(point_preferences)
             strategyData.my_desired_position = point_preferences[strategyData.player_unum]
             strategyData.my_desried_orientation = strategyData.GetDirectionRelativeToMyPositionAndTarget(strategyData.my_desired_position)
                     
@@ -339,6 +340,8 @@ class Agent(Base_Agent):
                 # Handle play on state
             if state_group == 'PLAY_ON':
                 return self.handle_play_on(strategyData)
+            
+            
                     
                 # Default behavior - move to formation position
             return self.move(strategyData.my_desired_position, orientation=strategyData.ball_dir)
