@@ -115,9 +115,10 @@ class Agent(Base_Agent):
        
             else:
                 # Attack - find best target and kick
-                target = pass_reciever_selector(strategyData.player_unum, 
-                                              strategyData.teammate_positions, 
-                                              (15,0))  # Default to goal if no good pass
+                # target = pass_reciever_selector(strategyData.player_unum, 
+                #                               strategyData.teammate_positions, 
+                #                               (15,0))  # Default to goal if no good pass
+                target = (15,0)
                 return self.kickTarget(strategyData, strategyData.mypos, target)
                 
         else:
