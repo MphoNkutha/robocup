@@ -36,7 +36,8 @@ class Agent(Base_Agent):
             'GAME_OVER': [self.world.M_GAME_OVER],
             'ACTIVE_BEAM': [self.world.M_OUR_KICKOFF, self.world.M_OUR_GOAL_KICK, self.world.M_OUR_CORNER_KICK, self.world.M_OUR_KICK_IN],
             'PASSIVE_BEAM': [self.world.M_THEIR_KICKOFF, self.world.M_THEIR_GOAL_KICK, self.world.M_THEIR_CORNER_KICK, self.world.M_THEIR_KICK_IN],
-            'PLAY_ON': [self.world.M_PLAY_ON]
+            'PLAY_ON': [self.world.M_PLAY_ON],
+            'OUR_KICKOFF':[self.world.M_OUR_KICKOFF]
         }
         
         # Define formations
@@ -349,13 +350,13 @@ class Agent(Base_Agent):
                 return self.move(strategyData.my_desired_position, orientation=strategyData.my_desried_orientation)
                 
                 # Handle play on state
-            if state_group == 'PLAY_ON':
-                 return self.handle_play_on(strategyData)
+            # if state_group == 'PLAY_ON' or state_group == '':
+            #      return self.handle_play_on(strategyData)
             
             
                     
                 # Default behavior - move to formation position
-            return self.move(strategyData.my_desired_position, orientation=strategyData.ball_dir)
+            return self.handle_play_on(strategyData)
     #     #--------------------------------------- 2. Decide action
 
     #     drawer = self.world.draw
