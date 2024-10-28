@@ -107,9 +107,12 @@ class Agent(Base_Agent):
         if strategyData.active_player_unum == strategyData.robot_model.unum:
             # Is opponent closer to ball?
             if strategyData.min_opponent_ball_dist < strategyData.min_teammate_ball_dist:
-                # Defend - move between ball and goal
+
+                 # Defend - move between ball and goal
                 defensive_pos = strategyData.ball_2d + M.normalize_vec((-16,0) - strategyData.ball_2d) * 0.2
                 return self.move(defensive_pos, orientation=strategyData.ball_dir, is_aggressive=True)
+
+       
             else:
                 # Attack - find best target and kick
                 target = pass_reciever_selector(strategyData.player_unum, 
@@ -152,6 +155,7 @@ class Agent(Base_Agent):
         target_2d : array_like
             2D target in absolute coordinates
         orientation : float
+
             absolute or relative orientation of torso, in degrees
             set to None to go towards the target (is_orientation_absolute is ignored)
         is_orientation_absolute : bool
@@ -213,6 +217,7 @@ class Agent(Base_Agent):
         self.kick_direction = self.kick_direction if kick_direction is None else kick_direction
         self.kick_distance = self.kick_distance if kick_distance is None else kick_distance
 
+
         if self.fat_proxy_cmd is None: # normal behavior
             return self.behavior.execute("Basic_Kick", self.kick_direction, abort) # Basic_Kick has no kick distance control
         else: # fat proxy behavior
@@ -220,7 +225,7 @@ class Agent(Base_Agent):
 
 
     def kickTarget(self, strategyData, mypos_2d=(0,0),target_2d=(0,0), abort=False, enable_pass_command=False):
-        '''
+        '''agent/Agent.py
         Walk to ball and kick
 
         Parameters
@@ -242,6 +247,7 @@ class Agent(Base_Agent):
             Returns True if the behavior finished or was successfully aborted.
         '''
 
+
         # Calculate the vector from the current position to the target position
         vector_to_target = np.array(target_2d) - np.array(mypos_2d)
         
@@ -253,6 +259,7 @@ class Agent(Base_Agent):
         
         # Convert direction to degrees for easier interpretation (optional)
         kick_direction = np.degrees(direction_radians)
+
 
 
         if strategyData.min_opponent_ball_dist < 1.45 and enable_pass_command:

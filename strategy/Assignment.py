@@ -153,16 +153,36 @@ def pass_reciever_selector(player_unum, teammate_positions, final_target):
     # Input : Locations of all teammates and a final target you wish the ball to finish at
     # Output : Target Location in 2d of the player who is recieveing the ball
     #-----------------------------------------------------------#
-
-    # Example
-    pass_reciever_unum = player_unum + 1                  #This starts indexing at 1, therefore player 1 wants to pass to player 2
+        # #Calculate the distance between the player and all teammates
+    distances = [np.linalg.norm(np.array(teammate_positions[i])-np.array(teammate_positions[player_unum])) for i in range(len(teammate_positions)-1)]
     
-    if pass_reciever_unum != 12:
-        target = teammate_positions[pass_reciever_unum-1] #This is 0 indexed so we actually need to minus 1 
-    else:
-        target = final_target 
+    #Disregard the player itself
+    distances[player_unum] = np.inf
+
+    #Find the closest player
+    receiver= (np.argmin(distances))
+    target = teammate_positions[receiver]
+
+
+
+
+
+    # If the goal post is closer than the closest player, pass to the goal post
+    if np.linalg.norm(np.array(final_target)-np.array(teammate_positions[player_unum])) < np.linalg.norm(np.array(teammate_positions[receiver])-np.array(teammate_positions[player_unum])):
+        target = final_target
+
     
     return target
+
+    # # Example
+    # pass_reciever_unum = player_unum + 1                  #This starts indexing at 1, therefore player 1 wants to pass to player 2
+    
+    # if pass_reciever_unum != 12:
+    #     target = teammate_positions[pass_reciever_unum-1] #This is 0 indexed so we actually need to minus 1 
+    # else:
+    #     target = final_target 
+    
+    # return target
 
 # player_positions = [(-14,0),(-9,-5),(-9,0),(-9,5),(-5,-5),(-5,0),(-5,5),(-1,-6),(-1,-2.5),(-1,2.5),(-1,6)]
 # formation_positions = [(-13,0),(-10, -2),(-11, 3),(-8, 0),(-3, 0),(0, 1),(2, 0), (3, 3),(8, 0),(9, 1),(12, 0)]
